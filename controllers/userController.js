@@ -1,6 +1,6 @@
-const db = require('../models'); // Assuming Sequelize ORM
+const db = require('../models'); 
 const bcrypt = require('bcryptjs');
-// You might need other dependencies depending on your implementation
+
 
 const userController = {};
 
