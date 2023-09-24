@@ -6,6 +6,12 @@ const db = require('./models');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const conversationRoutes = require('./routes/conversationRoutes');
+const exphbs = require('express-handlebars');
+
+const hbs = exphbs.create({});
+
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -47,6 +53,13 @@ app.get('/test', (req, res) => {
 // Use the user and conversation routes middleware
 app.use(userRoutes);
 app.use(conversationRoutes);  // Adding conversation routes after user routes
+
+app.get('/response', (req, res) =>{
+    res.render('response')
+})
+app.get('/', (req, res) => {
+    res.render('index')
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {
