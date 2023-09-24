@@ -4,7 +4,8 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./models');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/userRoutes');  // Assuming the user routes are in the `routes` directory
+const userRoutes = require('./routes/userRoutes');
+const conversationRoutes = require('./routes/conversationRoutes');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -17,7 +18,7 @@ const sessionStore = new SequelizeStore({
 app.use(express.json()); // To parse JSON requests
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'local_secret', // Use an environment variable in production
+    secret: process.env.SESSION_SECRET || 'local_secret',
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
@@ -37,11 +38,21 @@ app.use(async (req, res, next) => {
     }
     next();
 });
+
+// Test endpoint
 app.get('/test', (req, res) => {
     res.send('Test endpoint');
 });
-// Use the user routes middleware
+
+// Use the user and conversation routes middleware
 app.use(userRoutes);
+app.use(conversationRoutes);  // Adding conversation routes after user routes
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 // Initialize and listen on port
 db.sequelize.sync().then(() => {
@@ -50,10 +61,8 @@ db.sequelize.sync().then(() => {
         console.log(`Server started on http://localhost:${PORT}`);
     });
 });
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
+
+// Model attribute check
 if ("resetCode" in db.User.rawAttributes) {
     console.log("resetCode exists in the User model.");
 } else {
