@@ -54,6 +54,7 @@ app.get('/test', (req, res) => {
 app.use(userRoutes);
 app.use(conversationRoutes);  // Adding conversation routes after user routes
 
+// handlebars routes
 app.get('/response', (req, res) =>{
     res.render('response')
 })
