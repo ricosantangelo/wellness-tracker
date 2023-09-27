@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
+
+
+// Route to render landing page
+router.get('/', userController.renderLandingPage);
+
+
 // Registration route
 router.post('/register', userController.register);
 

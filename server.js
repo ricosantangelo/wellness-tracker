@@ -59,9 +59,11 @@ app.get('/response', (req, res) =>{
     res.render('response')
 })
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('landingPage')
 })
-
+app.get('/chatPage', (req, res) => {
+    res.render('chatPage')
+})
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

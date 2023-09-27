@@ -4,6 +4,11 @@ const bcrypt = require('bcryptjs');
 
 const userController = {};
 
+userController.renderLandingPage = (req, res) => {
+    res.render('landingPage'); // assuming you have a view file named 'landingPage'
+};
+
+
 userController.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;

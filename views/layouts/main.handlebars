@@ -1,39 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Signup Form</title>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav> </nav>
-    {{!-- <div> wellnes quote</div> --}}
-    <h1>Login Form</h1>
-    <form>
-        <label for="email">E-Mail:</label><br>
-        <input type="email" id="email"><br>
-        <label for="pwd">Password:</label><br>
-        <input type="password" id="pwd"><br><br>
-        <input type="submit" value="Submit">
-    </form>
-
-    <h1>Signup Form</h1>
-    <form>
-        <label for="fname">First Name:</label><br>
-        <input type="text" id="fname" name="fname" value="Jane"><br>
-        <label for="lname"> Last Name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe"><br><br>
-        <label for="email">E-Mail:</label><br>
-        <input type="email" id="email"><br>
-        <label for="pwd">Password:</label><br>
-        <input type="password" id="pwd"><br>
-        <label for="pwd">Confirm Password:</label><br>
-        <input type="password" id="pwd"><br><br>
-        <input type="submit" value="Signup">
-
-    </form>
-    {{!-- <div>disclaimer</div> --}}
-    {{{ body }}}
-    <footer></footer>
+  {{{body}}}
 </body>
 </html>

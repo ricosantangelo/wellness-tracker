@@ -4,6 +4,8 @@ const router = express.Router();
 const conversationController = require('../controllers/conversationController');
 const aiController = require('../controllers/aiController');
 
+// Route to render chat page
+router.get('/chat', conversationController.renderChatPage);
 // Create a new conversation
 router.post('/conversations', conversationController.createConversation);
 
