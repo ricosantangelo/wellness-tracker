@@ -40,11 +40,8 @@ app.use(session({
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
-        httpOnly: true,
-        secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 week
-        sameSite: 'lax',
-    }
+       secure: process.env.NODE_ENV === 'production',
+    },
 }));
 
 // Middleware to fetch user
