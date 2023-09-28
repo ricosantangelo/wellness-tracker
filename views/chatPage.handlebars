@@ -24,7 +24,7 @@
 <body class="bg-light-blue text-black">
     <div class="gradient-bar"></div>
     <div class="container mx-auto flex">
-        <div id="history" class="w-3/12 p-6 pixel-border">
+        <div id="history" class="w-3/12 p-6 pixel-border rounded">
             <h1 class="text-xl font-mono mb-4">Wellness History</h1>
             <ul id="history-list">
                 {{#each history}}
@@ -34,7 +34,7 @@
                 {{/each}}
             </ul>
         </div>
-        <div id="interaction" class="w-9/12 ml-6 p-6 pixel-border">
+        <div id="interaction" class="w-9/12 ml-6 p-6 pixel-border rounded">
             <h1 class="text-xl font-mono mb-4">Wellness Session</h1>
             <form id="wellness-form" class="flex items-center">
                 <textarea id="query" placeholder="How are you feeling today?" class="flex-grow p-2 rounded font-mono pixel-border h-12"></textarea>  <!-- Black border -->
