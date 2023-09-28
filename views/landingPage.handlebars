@@ -16,6 +16,15 @@
             height: 60px;
             width: 100%;
         }
+        .gradient-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;  
+            font-weight: bold;
+            z-index: 1;
+        }
         .pixel-border {
             border: 2px solid #000000;
         }
@@ -27,7 +36,9 @@
     </style>
 </head>
 <body class="bg-light-blue text-black">
-    <div class="gradient-bar"></div>
+    <div class="gradient-bar relative">
+        <div class="gradient-text">WellnessBot🤖</div>
+    </div>
     <div class="container mx-auto flex flex-col items-center justify-center min-h-screen">
 
         <div class="form-container">
