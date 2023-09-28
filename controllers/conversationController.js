@@ -30,6 +30,9 @@ conversationController.listConversations = async (req, res) => {
 
 conversationController.addMessage = async (req, res) => {
     try {
+
+    
+        
         const { content, type } = req.body;
         let { conversationId } = req.params;
         const userId = req.userId;
@@ -51,6 +54,7 @@ conversationController.addMessage = async (req, res) => {
             conversationId,
             userId
         });
+    
 
         return res.status(201).json({ message: 'Message added', message });
     } catch (error) {

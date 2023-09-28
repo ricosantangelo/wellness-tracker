@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             if (response.ok) {
-                // If logout is successful, redirect to the home page or login page
                 window.location.href = '/';
             } else {
                 const errorData = await response.json();
@@ -58,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 return data.conversationId ?? await createNewConversation();
             } else if (response.status === 404) {
-                // If no conversation found, create a new one
                 return await createNewConversation();
             } else {
                 const errorData = await response.json();
@@ -69,77 +67,63 @@ document.addEventListener('DOMContentLoaded', () => {
             return null;
         }
     }
-    
 
-// Fetch Conversations when the chat page is loaded
-fetch('/conversations')
-.then(response => response.json())
-.then(conversations => {
-    // Get the history-list element
-    const historyList = document.getElementById('history-list');
+    async function fetchAndRenderConversations() {
+        try {
+            const conversations = await fetch('/conversations').then(response => response.json());
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            conversations.forEach(conversation => {
+                const listItem = document.createElement('li');
+                listItem.dataset.date = conversation.createdAt;
+                const date = new Date(conversation.createdAt);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = date.toLocaleDateString(undefined, options);
+                listItem.innerHTML = `${formattedDate}`;
+                listItem.addEventListener('click', function () {
+                    onConversationClick(conversation.id);
+                });
+                historyList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error('Error fetching conversations:', error);
+        }
+    }
 
-    // Clear any existing items
-    historyList.innerHTML = '';
+    fetchAndRenderConversations();
 
-    // Append each conversation to the history-list
-    conversations.forEach(conversation => {
-        const listItem = document.createElement('li');
-        listItem.dataset.date = conversation.createdAt;
-        
-        
-        // Format the date
-        const date = new Date(conversation.createdAt);
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = date.toLocaleDateString(undefined, options); // Example: Thursday, September 28, 2023
-        
-        listItem.innerHTML = `${formattedDate}`;
-        listItem.addEventListener('click', function () {
-            onConversationClick(conversation.id);
-        });
-        historyList.appendChild(listItem);
-    });
-})
-.catch(error => console.error('Error fetching conversations:', error));
+    function onConversationClick(conversationId) {
+        console.log('Conversation clicked:', conversationId);
+        fetch(`/conversations/${conversationId}`)
+            .then(response => response.json())
+            .then(messages => {
+                const aiResponse = document.getElementById('ai-response');
+                aiResponse.innerHTML = '';
+                messages.forEach(message => {
+                    const messagePara = document.createElement('p');
+                    messagePara.classList.add('text-base', 'font-mono');
+                    messagePara.textContent = message.content;
+                    aiResponse.appendChild(messagePara);
+                });
+            })
+            .catch(error => console.error('Error fetching conversation:', error));
+    }
 
-// Function to handle conversation click
-function onConversationClick(conversationId) {
-// Fetch messages for the clicked conversation
-fetch(`/conversations/${conversationId}`)
-    .then(response => response.json())
-    .then(messages => {
-        // Get the ai-response element
-        const aiResponse = document.getElementById('ai-response');
-
-        // Clear any existing messages
-        aiResponse.innerHTML = '';
-
-        // Append each message to the ai-response
-        messages.forEach(message => {
-            const messagePara = document.createElement('p');
-            messagePara.classList.add('text-base', 'font-mono');
-            messagePara.textContent = message.content;
-            aiResponse.appendChild(messagePara);
-        });
-    })
-    .catch(error => console.error('Error fetching conversation:', error));
-}
-
-
-      
-    // Wellness Form Submission
     const wellnessForm = document.querySelector('#wellness-form');
     if (wellnessForm) {
         wellnessForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const messageInput = document.querySelector('#query');
+            const message = messageInput.value;
+
+
             
-            const message = document.querySelector('#query').value;
             const conversationId = await getConversationId();
-            
             if (conversationId === null) {
                 alert('Could not fetch or create a conversation ID.');
                 return;
             }
-
+            loadingIcon.style.display = 'block';
             try {
                 const response = await fetch(`/conversations/${conversationId}/ai`, {
                     method: 'POST',
@@ -147,11 +131,12 @@ fetch(`/conversations/${conversationId}`)
                     credentials: 'same-origin',
                     body: JSON.stringify({ message })
                 });
-
                 if (response.ok) {
                     const data = await response.json();
                     const aiResponse = document.querySelector('#ai-response');
                     aiResponse.innerHTML = `<p class="text-base font-mono">${data.aiMessage}</p>`;
+                    fetchAndRenderConversations();
+                    messageInput.value = '';
                 } else {
                     const errorData = await response.json();
                     alert(errorData.error);
@@ -159,7 +144,10 @@ fetch(`/conversations/${conversationId}`)
             } catch (error) {
                 console.error('Error:', error);
             }
+            finally {
+                // Hide the loading icon whether there was an error or not
+                loadingIcon.style.display = 'none';
+            }
         });
-    }         
-    
+    }
 });

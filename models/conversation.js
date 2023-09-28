@@ -17,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Conversation.init({
-    content: DataTypes.TEXT,
-    date: DataTypes.DATE,
+   
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
