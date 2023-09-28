@@ -31,17 +31,25 @@ conversationController.listConversations = async (req, res) => {
 conversationController.addMessage = async (req, res) => {
     try {
         const { content, type } = req.body;
-        const { conversationId } = req.params;
+        let { conversationId } = req.params;
+        const userId = req.userId;
 
         if (type !== 'user' && type !== 'ai') {
             return res.status(400).json({ error: 'Invalid message type.' });
         }
 
+        // If conversationId is not provided, create a new conversation
+        if (!conversationId) {
+            const newConversation = await db.Conversation.create({ userId });
+            conversationId = newConversation.id;
+        }
+
+        // Now, create the message with the conversationId
         const message = await db.Message.create({
             content,
             type,
             conversationId,
-            userId: req.userId
+            userId
         });
 
         return res.status(201).json({ message: 'Message added', message });
@@ -64,6 +72,7 @@ conversationController.viewConversation = async (req, res) => {
         return res.status(500).json({ error: 'Server error fetching conversation.' });
     }
 };
+
 
 conversationController.deleteConversation = async (req, res) => {
     try {
@@ -93,5 +102,23 @@ conversationController.deleteConversation = async (req, res) => {
         return res.status(500).json({ error: 'Server error deleting conversation.' });
     }
 };
+conversationController.getLatestConversationId = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const latestConversation = await db.Conversation.findOne({
+            where: { userId },
+            order: [['createdAt', 'DESC']]
+        });
+        if (!latestConversation) {
+            return res.status(404).json({ error: 'No conversations found for the user.' });
+        }
+        return res.status(200).json({ conversationId: latestConversation.id });
+    } catch (error) {
+        console.error('Error fetching latest conversation ID:', error);
+        return res.status(500).json({ error: 'Server error fetching latest conversation ID.' });
+    }
+};
+
+
 
 module.exports = conversationController;

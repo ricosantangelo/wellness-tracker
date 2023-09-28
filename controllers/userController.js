@@ -11,23 +11,25 @@ userController.renderLandingPage = (req, res) => {
 
 userController.register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
         
+        // Combine firstName and lastName to form the full name
+        const name = `${firstName} ${lastName}`;
         
         const existingUser = await db.User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ error: 'User with this email already exists.' });
         }
         
-        
-
-        const user = await db.User.create({ name, email, password});
+        const user = await db.User.create({ name, email, password });
         delete user.dataValues.password;
         res.status(201).json({ message: 'User registered successfully', user });
     } catch (error) {
+        console.error('Error during registration:', error); // Log the error for debugging
         res.status(500).json({ error: 'Server error during registration.' });
     }
 };
+
 userController.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -116,6 +118,11 @@ userController.editProfile = async (req, res) => {
 };
 
 userController.logout = (req, res) => {
+    if (!req.session || !req.session.userId) {
+        // No active session or user is not logged in
+        return res.status(200).json({ message: 'Already logged out.' });
+    }
+    
     req.session.destroy(err => {
         if (err) {
             return res.status(500).json({ error: 'Error logging out.' });
@@ -123,6 +130,7 @@ userController.logout = (req, res) => {
         res.status(200).json({ message: 'Logged out successfully.' });
     });
 };
+
 userController.forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
