@@ -25,40 +25,48 @@
         .pixel-border {
             border: 2px solid #000000;
         }
+        .form-container {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
     </style>
 </head>
 <body class="bg-light-blue text-black">
     <div class="gradient-bar"></div>
     <div class="container mx-auto flex flex-col items-center justify-center min-h-screen">
-        <div class="w-1/3 p-6 pixel-border mb-6">
-            <h1 class="text-xl font-mono mb-4">Login Form</h1>
-          <form id="login-form">
-            <form>
-                <label for="login-email" class="block font-mono mb-2">E-Mail:</label>
-                <input type="email" id="login-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <label for="login-pwd" class="block font-mono mb-2">Password:</label>
-                <input type="password" id="login-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <input type="submit" value="Submit" class="bg-light-blue text-black border-2 border-black p-2 rounded font-mono cursor-pointer w-full">
-            </form>
-        </div>
-        <div class="w-1/3 p-6 pixel-border">
-            <h1 class="text-xl font-mono mb-4">Signup Form</h1>
-            <form id="signup-form">
-            <form>
-                <label for="signup-fname" class="block font-mono mb-2">First Name:</label>
-                <input type="text" id="signup-fname" name="fname" value="Jane" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <label for="signup-lname" class="block font-mono mb-2">Last Name:</label>
-                <input type="text" id="signup-lname" name="lname" value="Doe" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <label for="signup-email" class="block font-mono mb-2">E-Mail:</label>
-                <input type="email" id="signup-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <label for="signup-pwd" class="block font-mono mb-2">Password:</label>
-                <input type="password" id="signup-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <label for="signup-confirm-pwd" class="block font-mono mb-2">Confirm Password:</label>
-                <input type="password" id="signup-confirm-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
-                <input type="submit" value="Signup" class="bg-light-blue text-black border-2 border-black p-2 rounded font-mono cursor-pointer w-full">
-            </form>
+
+        <div class="form-container">
+            <div class="w-1/3 p-6 pixel-border mb-6">
+                <h1 class="text-xl font-mono mb-4">Login Form</h1>
+                <form>
+                    <label for="login-email" class="block font-mono mb-2">E-Mail:</label>
+                    <input type="email" id="login-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <label for="login-pwd" class="block font-mono mb-2">Password:</label>
+                    <input type="password" id="login-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <input type="submit" value="Submit" class="bg-light-blue text-black border-2 border-black p-2 rounded font-mono cursor-pointer w-full">
+                </form>
+            </div>
+            <div class="w-1/3 p-6 pixel-border">
+                <h1 class="text-xl font-mono mb-4">Signup Form</h1>
+                <form>
+                    <label for="signup-fname" class="block font-mono mb-2">First Name:</label>
+                    <input type="text" id="signup-fname" name="fname" value="Jane" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <label for="signup-lname" class="block font-mono mb-2">Last Name:</label>
+                    <input type="text" id="signup-lname" name="lname" value="Doe" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <label for="signup-email" class="block font-mono mb-2">E-Mail:</label>
+                    <input type="email" id="signup-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <label for="signup-pwd" class="block font-mono mb-2">Password:</label>
+                    <input type="password" id="signup-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <label for="signup-confirm-pwd" class="block font-mono mb-2">Confirm Password:</label>
+                    <input type="password" id="signup-confirm-pwd" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <input type="submit" value="Signup" class="bg-light-blue text-black border-2 border-black p-2 rounded font-mono cursor-pointer w-full">
+                </form>
+            </div>
+
         </div>
     </div>
     <script src="/public/js/landingPage.js" defer></script>
 </body>
 </html>
+
