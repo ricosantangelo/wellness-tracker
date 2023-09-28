@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Fetch the latest conversation ID
     async function getConversationId() {
         try {
             const response = await fetch('/conversations/latest', {
@@ -57,10 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                return data.conversationId ?? createNewConversation();
+                return data.conversationId ?? await createNewConversation();
             } else if (response.status === 404) {
                 // If no conversation found, create a new one
-                return createNewConversation();
+                return await createNewConversation();
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.error);
@@ -70,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return null;
         }
     }
+    
 
 // Fetch Conversations when the chat page is loaded
 fetch('/conversations')

@@ -5,7 +5,7 @@ const db = require('../models');  // Assuming this is the path to your Sequelize
 exports.talkWithAI = async (req, res) => {
     const { message } = req.body;
     const userId = req.userId; // Assuming you've set this up in middleware as before.
-    const conversationId = req.params.conversationId; // Extracting the conversationId from the URL parameter.
+    const conversationId = req.query.conversationId;
 
     if (!message) {
         return res.status(400).json({ error: 'Message is required.' });
