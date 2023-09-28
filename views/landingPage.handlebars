@@ -33,7 +33,7 @@
         <div class="form-container">
             <div class="w-1/3 p-6 pixel-border mb-6">
                 <h1 class="text-xl font-mono mb-4">Login Form</h1>
-                <form>
+                <form id="login-form">
                     <label for="login-email" class="block font-mono mb-2">E-Mail:</label>
                     <input type="email" id="login-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
                     <label for="login-pwd" class="block font-mono mb-2">Password:</label>
@@ -43,11 +43,11 @@
             </div>
             <div class="w-1/3 p-6 pixel-border">
                 <h1 class="text-xl font-mono mb-4">Signup Form</h1>
-                <form>
+                <form id="signup-form">
                     <label for="signup-fname" class="block font-mono mb-2">First Name:</label>
-                    <input type="text" id="signup-fname" name="fname" value="Jane" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <input type="text" id="signup-fname" name="fname" class="p-2 rounded font-mono pixel-border w-full mb-4">
                     <label for="signup-lname" class="block font-mono mb-2">Last Name:</label>
-                    <input type="text" id="signup-lname" name="lname" value="Doe" class="p-2 rounded font-mono pixel-border w-full mb-4">
+                    <input type="text" id="signup-lname" name="lname" class="p-2 rounded font-mono pixel-border w-full mb-4">
                     <label for="signup-email" class="block font-mono mb-2">E-Mail:</label>
                     <input type="email" id="signup-email" class="p-2 rounded font-mono pixel-border w-full mb-4">
                     <label for="signup-pwd" class="block font-mono mb-2">Password:</label>
@@ -61,6 +61,8 @@
         </div>
     </div>
     <script src="/public/js/landingPage.js" defer></script>
+
+
 </body>
 </html>
 

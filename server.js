@@ -7,6 +7,14 @@ const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const conversationRoutes = require('./routes/conversationRoutes');
 const exphbs = require('express-handlebars');
+const Conversation = db.Conversation; // Import the Conversation model
+
+const publicRoutes = [
+    '/register',
+    '/login',
+    // add any other routes that should be accessible without authentication
+];
+
 
 const hbs = exphbs.create({});
 
@@ -22,6 +30,9 @@ const sessionStore = new SequelizeStore({
 
 // Middlewares
 app.use(express.json()); // To parse JSON requests
+// Serve static files from the public directory
+app.use('/public', express.static('public'));
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'local_secret',
@@ -44,6 +55,7 @@ app.use(async (req, res, next) => {
     }
     next();
 });
+
 
 // Test endpoint
 app.get('/test', (req, res) => {
@@ -69,6 +81,55 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
+// Define a route to get the latest conversation for the user
+app.get('/conversations/latest', async (req, res) => {
+    try {
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        // Try to find the latest conversation for the user
+        const conversation = await Conversation.findOne({
+            where: { userId: userId },
+            order: [['createdAt', 'DESC']]
+        });
+
+        if (!conversation) {
+            // If no conversation is found, return a null conversationId
+            return res.status(200).json({ conversationId: null });
+        } else {
+            // If a conversation is found, return its ID
+            return res.status(200).json({ conversationId: conversation.id });
+        }
+    } catch (error) {
+        console.error('Error fetching the latest conversation:', error);
+        return res.status(500).json({ error: 'Server error fetching latest conversation ID.' });
+    }
+});
+
+
+// Define a POST route to create a new conversation
+app.post('/conversations', async (req, res) => {
+    try {
+      // Assuming you have userId in req object from session middleware
+      const userId = req.userId;
+      if (!userId) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
+  
+      // Create a new conversation for the user
+      const conversation = await Conversation.create({ userId });
+      return res.status(201).json({ conversationId: conversation.id });
+    } catch (error) {
+      console.error('Error creating a new conversation:', error);
+      return res.status(500).json({ error: 'Server error creating a new conversation.' });
+    }
+  });
+  
+
+
 
 // Initialize and listen on port
 db.sequelize.sync().then(() => {

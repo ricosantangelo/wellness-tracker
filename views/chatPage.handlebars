@@ -19,20 +19,37 @@
             height: 60px;
             width: 100%;
         }
+
+         #ai-response p {
+        margin-bottom: 30px; /* Adjust the value as per your needs */
+    }
     </style>
 </head>
 <body class="bg-light-blue text-black">
+<div id="registration-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden">
+  <div class="bg-white rounded-lg p-8 relative">
+    <span class="absolute top-2 right-2 cursor-pointer close">
+      &times;
+    </span>
+    <p class="text-xl font-semibold">Welcome! You have successfully registered.</p>
+  </div>
+</div>
+
+
+ <button id="logoutButton" class="bg-light-blue text-black border-2 border-black p-2 rounded font-mono absolute top-2 right-2">Logout</button>
     <div class="gradient-bar"></div>
     <div class="container mx-auto flex">
         <div id="history" class="w-3/12 p-6 pixel-border">
             <h1 class="text-xl font-mono mb-4">Wellness History</h1>
-            <ul id="history-list">
-                {{#each history}}
-                    <li data-date="{{this.date}}" class="mb-2">
-                        <p class="text-base font-mono">{{this.date}}</p>
-                    </li>
-                {{/each}}
-            </ul>
+          <ul id="history-list">
+    {{#each history}}
+        <li data-date="{{this.date}}" class="mb-2 cursor-pointer transition hover:bg-gray-200">
+            <button class="text-base font-mono w-full text-left p-2" onclick="onConversationClick({{this.id}})">
+                {{this.date}}
+            </button>
+        </li>
+    {{/each}}
+</ul>
         </div>
         <div id="interaction" class="w-9/12 ml-6 p-6 pixel-border">
             <h1 class="text-xl font-mono mb-4">Wellness Session</h1>
@@ -46,5 +63,6 @@
             </div>
         </div>
     </div>
+    <script src="/public/js/chatPage.js" ></script>
 </body>
 </html>

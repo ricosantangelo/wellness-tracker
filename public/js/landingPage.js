@@ -1,76 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('#loginForm');
-    const signupForm = document.querySelector('#signupForm');
+
+    // Login Form Submission
+    const loginForm = document.querySelector('#login-form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.querySelector('#login-email').value;
+        const password = document.querySelector('#login-pwd').value;
+        
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin', // Ensure cookies are sent with the request
+            body: JSON.stringify({ email, password })
+          });
+          
+          if (response.ok) {
+            // Redirect to chat page if login is successful
+            window.location.href = '/chat';
+          } else {
+            // Display error message
+            const data = await response.json();
+            alert(data.error);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+    }
     
-    // Attach event listener for login form submission
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = e.target.email.value;
-      const password = e.target.pwd.value;
-      
-      try {
-        const response = await fetch('/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email, password })
-        });
+    // Signup Form Submission
+    const signupForm = document.querySelector('#signup-form');
+    if (signupForm) {
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        const data = await response.json();
+        const firstName = document.querySelector('#signup-fname').value;
+        const lastName = document.querySelector('#signup-lname').value;
+        const email = document.querySelector('#signup-email').value;
+        const password = document.querySelector('#signup-pwd').value;
         
-        if (response.ok) {
-          // Handle successful login, e.g., redirecting to another page
-          window.location.href = '/chat';
-        } else {
-          // Handle login error, e.g., showing an error message to the user
-          console.error(data.error);
+        try {
+          const response = await fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin', // Ensure cookies are sent with the request
+            body: JSON.stringify({ firstName, lastName, email, password })
+          });
+          
+          if (response.ok) {
+            // Set a flag in sessionStorage to indicate that the user just registered
+            sessionStorage.setItem('userJustRegistered', 'true');
+            // Redirect to chat page if registration is successful
+            window.location.href = '/chat';
+          } else {
+            // Display error message
+            const data = await response.json();
+            alert(data.error);
+          }
+        } catch (error) {
+          console.error('Error:', error);
         }
-      } catch (error) {
-        console.error('Error during login:', error);
-      }
-    });
-  
-    // Attach event listener for signup form submission
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const firstName = e.target.fname.value;
-      const lastName = e.target.lname.value;
-      const email = e.target.email.value;
-      const password = e.target.pwd.value;
-      // Assuming there's a pwdConfirm field in your form for password confirmation
-      const passwordConfirm = e.target.pwdConfirm.value;
-      
-      if (password !== passwordConfirm) {
-        console.error('Passwords do not match');
-        return;
-      }
-      
-      try {
-        const response = await fetch('/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ firstName, lastName, email, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          // Handle successful signup, e.g., redirecting to another page
-          window.location.href = '/chat';
-        } else {
-          // Handle signup error, e.g., showing an error message to the user
-          console.error(data.error);
-        }
-      } catch (error) {
-        console.error('Error during signup:', error);
-      }
-    });
-  
-    // TODO: Add event listeners for "Forgot Password" and "Reset Password" when implemented
+      });
+    }
+    
   });
   
