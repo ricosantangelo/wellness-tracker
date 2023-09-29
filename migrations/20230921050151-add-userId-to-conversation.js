@@ -1,19 +1,24 @@
 'use strict';
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    // Add userId column to Conversations table
-    await queryInterface.addColumn('Conversations', 'userId', {
-      type: Sequelize.INTEGER,
-      allowNull: true,  // assuming a conversation might exist without an associated user, adjust as per your requirements
-      references: {
-        model: 'Users',  // table name, not object name
-        key: 'id'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL'
-    });
-  },
+  up: async (queryInterface, Sequelize) => {
+    // Check if userId column already exists in Conversations table
+    const tableDescription = await queryInterface.describeTable('Conversations');
+    
+    if (!tableDescription.userId) {
+        // If userId column does not exist, add it
+        await queryInterface.addColumn('Conversations', 'userId', {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'Users',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
+        });
+    }
+},
 
   async down(queryInterface, Sequelize) {
     // Remove userId column from Conversations table
