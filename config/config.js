@@ -1,6 +1,3 @@
-
-require('dotenv').config();
-
 module.exports = {
   "development": {
     "username": process.env.DEV_DB_USER,
@@ -19,15 +16,12 @@ module.exports = {
     // ... other configurations specific to testing
   },
   "production": {
-    "username": process.env.PROD_DB_USER,
-    "password": process.env.PROD_DB_PASSWORD, 
-    "database": process.env.PROD_DB_NAME,
-    "host": process.env.PROD_DB_HOST,
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
     "dialectOptions": {
       "ssl": {
         "require": true,
-        "rejectUnauthorized": false  // <<<< NOTE: This is insecure; use only during development.
+        "rejectUnauthorized": false  // Consider obtaining a proper SSL certificate in production
       }
     }
     // ... other configurations specific to production
