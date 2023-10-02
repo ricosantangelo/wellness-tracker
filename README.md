@@ -5,7 +5,8 @@ Given the rise in the awareness of mental health and the importance of self-care
 
 ## Installation
 
-Our group used bcryptjs, dotenv, express, nodemon, openai, sequelize, and handlebars.
+Our group used the OpenAI API to fetch support for users depending on the emotional support required. We utilized the Bcrypt.js module to enable storing passwords as hashed passwords instead of plain text. Tailwind CSS framework for was used for styling. JQuery UI was used for the user interface. Dotenv was used to load environment variables from a .env file into process.env. Nodemon was used to develop a Node.js based application by automatically restarting the node application when file changes in the directory were detected. For templating languate, we utilized Handlebars. Sequelize was utilized for connecting to our databases. Finally, Express was utilized to help manage servers and routes.
+express,
 
 ## Usage
 
