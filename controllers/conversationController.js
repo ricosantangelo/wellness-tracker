@@ -8,7 +8,9 @@ conversationController.renderChatPage = (req, res) => {
 
 conversationController.createConversation = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.session.userId;
+        if (!userId) throw new Error("User not logged in.");
+
         const conversation = await db.Conversation.create({ userId });
         return res.status(201).json({ message: 'Conversation started', conversation });
     } catch (error) {
@@ -108,7 +110,9 @@ conversationController.deleteConversation = async (req, res) => {
 };
 conversationController.getLatestConversationId = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.session.userId;
+        if (!userId) throw new Error("User not logged in.");
+
         const latestConversation = await db.Conversation.findOne({
             where: { userId },
             order: [['createdAt', 'DESC']]
