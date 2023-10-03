@@ -9,11 +9,6 @@ const conversationRoutes = require('./routes/conversationRoutes');
 const exphbs = require('express-handlebars');
 const Conversation = db.Conversation; // Import the Conversation model
 
-const publicRoutes = [
-    '/register',
-    '/login',
-    // add any other routes that should be accessible without authentication
-];
 
 
 const hbs = exphbs.create({});
