@@ -22,6 +22,6 @@ logs/
 *.bak              
 
 # Database
-.local_database.sql
+local_database.sql
 
-.test.tx
+test.txt
